@@ -50,12 +50,14 @@ public class HttpUtility : Singleton<HttpUtility>
     {       
         UnityWebRequest www = UnityWebRequest.Put(url, Encoding.UTF8.GetBytes(json));
         www.SetRequestHeader("Cookie", string.Format("{0}={1}", CookieName, token));
+        www.method = UnityWebRequest.kHttpVerbPOST;
 
         return Observable.Return(www)
             .SelectMany(x => x.SendWebRequest().AsAsyncOperationObservable())
             .Do(req => SetToken(GetToken(req.webRequest)))
+            .Do(x => Debug.LogFormat("isNetworkError={0}, ", x.webRequest.isNetworkError))
             .Select(x => x.webRequest.downloadHandler.text)
-            .Do(x => Debug.Log(x));
+            .Do(x => Debug.LogFormat("Json={0}",x));
     }
     /// <summary>
     /// 設定WWW的SessionID(或稱Token或Cookie).
