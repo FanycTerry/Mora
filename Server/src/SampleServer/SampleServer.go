@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
-	"net/http"
+	"net/http" //"github.com/gin-contrib/cors"
 
 	"github.com/gorilla/mux"
 )
@@ -98,12 +98,23 @@ func main() {
 	sessionMgr = Helper.NewSessionMgr("Mora_Game", 3600)
 	fmt.Println(name)
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/Login", Login)
-	router.HandleFunc("/Register", Register)
-	router.HandleFunc("/Mora", MoraGame)
-	router.HandleFunc("/todos/{todoId}", TodoShow)
 
+	//router.Methods("GET", "POST")
+	//router.Headers("X-Requested-With", "XMLHttpRequest")
+	router.HandleFunc("/", index)
+	router.HandleFunc("/login", Login)       //.Methods("PUT")
+	router.HandleFunc("/register", Register) //.Methods("PUT")
+	router.HandleFunc("/mora", MoraGame)
+	//router.HandleFunc("/todos/{todoId}", MoraGame)
+	/*
+		router.Use(cors.New(cors.Options{
+			AllowedOrigins:   []string{"*"},
+			AllowCredentials: true,
+		}))
+	*/
 	log.Fatal(http.ListenAndServe(":8080", router))
+}
+func index(w http.ResponseWriter, r *http.Request) {
 }
 func Login(w http.ResponseWriter, r *http.Request) {
 	var req LoginReq
