@@ -14,7 +14,7 @@ namespace Mora
     {
         public string LOGIN = "http://127.0.0.1:8080/";
         public string REGIST = "http://127.0.0.1:8080/";
-        public string BET = "http://192.168.1.86:8080/mora";
+        public string BET = "http://127.0.0.1:8080/mora";
 
         enum PlayType : int
         {
@@ -62,7 +62,7 @@ namespace Mora
                 SelectBtn[i].OnClickAsObservableGo(i)
                     .Select(x => new MoraReq { index = x.Item2, bet = int.Parse(BetNum.text), name = PlayerTxt[(int)PlayType.USER].text })
                     .Select(req => JsonConvert.SerializeObject(req))    // 將class轉成Json.                
-                    .SelectMany(json => HttpUtility.Put("http://192.168.1.86:8080/mora", json))     // 送出Http請求,並等待回應.
+                    .SelectMany(json => HttpUtility.Put(BET, json))     // 送出Http請求,並等待回應.
                     .Select(x => JsonConvert.DeserializeObject<MoraResp>(x))    // 將Http回應的字串轉成class.
                     .Do(resp => setResult(resp))   // 將返回的類別資料給結果.
                     .Subscribe()

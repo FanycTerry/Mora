@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package proto;
+
+// client 內部通知
+message PeerConnected {
+}
+// 註冊請求.
+message RegisterReq{
+    string name = 1;
+    string pw = 2;
+}
+// 註冊回應.
+message RegisterResp{
+    int32 result = 1;
+}
+//登入請求.
+message LoginReq{
+    string name = 1;
+    string pw = 2;
+}
+//登入回應.
+message LoginResp{
+    int32 result = 1;
+    string name = 2;
+    string token = 3;
+    int32 money = 4;
+}
+//遊戲-猜拳下注.
+message MoraReq{
+    int32 index = 1;
+    int32 bet = 2;    
+}
+
+message MoraResp{
+    int32 result = 1;
+    int32 mora = 2;
+    int32 gameRes = 3;
+    int32 win = 4;
+    int32 draw = 5;
+    int32 lose = 6;
+    string name = 7;
+    int32 top = 8;
+    int32 money = 9;
+}
